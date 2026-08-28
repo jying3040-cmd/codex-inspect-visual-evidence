@@ -1,0 +1,38 @@
+{
+  "name": "inspect-visual-evidence",
+  "version": "1.1.0",
+  "description": "Evidence-first visual inspection for web pages, images, videos, and screen recordings.",
+  "author": {
+    "name": "jying3040-cmd",
+    "url": "https://github.com/jying3040-cmd"
+  },
+  "homepage": "https://github.com/jying3040-cmd/codex-inspect-visual-evidence#readme",
+  "repository": "https://github.com/jying3040-cmd/codex-inspect-visual-evidence",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "agent-skill",
+    "visual-inspection",
+    "evidence",
+    "screenshots",
+    "video-analysis"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Inspect Visual Evidence",
+    "shortDescription": "Ground visual findings in the smallest reliable evidence.",
+    "longDescription": "Inspect web pages, images, videos, and screen recordings with traceable URLs, timestamps, crops, transcripts, and explicit uncertainty.",
+    "developerName": "jying3040-cmd",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Analysis",
+      "Visual inspection"
+    ],
+    "defaultPrompt": [
+      "Use $inspect-visual-evidence to inspect this screenshot and separate observations from inference.",
+      "Use $inspect-visual-evidence to review this page with DOM evidence before screenshots.",
+      "Use $inspect-visual-evidence to build a timestamped evidence report for this recording."
+    ],
+    "brandColor": "#0F766E"
+  }
+}
