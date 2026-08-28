@@ -1,41 +1,127 @@
-# codex-inspect-visual-evidence
+# Inspect Visual Evidence for Codex
 
-A Codex-only skill for inspecting web pages, images, videos, and screen recordings with evidence-first visual analysis.
+[![Validate](https://github.com/jying3040-cmd/codex-inspect-visual-evidence/actions/workflows/validate.yml/badge.svg)](https://github.com/jying3040-cmd/codex-inspect-visual-evidence/actions/workflows/validate.yml)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-## What it does
+**An evidence-first Codex skill for inspecting web pages, screenshots, images, videos, and screen recordings.**
 
-This skill helps Codex:
+It helps Codex choose the smallest reliable evidence source, preserve URLs and timestamps, and say clearly what was observed, inferred, or still unknown.
 
-- Prefer DOM, accessibility, text, metadata, and application state before screenshots.
-- Use targeted screenshots and crops when appearance or spatial detail matters.
-- Analyze videos with metadata, transcripts, scene-aware sampling, and local frame re-checks.
-- Keep timestamps, URLs, and uncertainty attached to important conclusions.
-- Avoid treating pixels alone as proof of unseen input events.
+~~~mermaid
+flowchart LR
+    Q[Question] --> S{Structured evidence enough?}
+    S -->|Yes| D[DOM, text, metadata, transcript]
+    S -->|No| V[Targeted screenshot, crop, or frames]
+    D --> R[Traceable finding]
+    V --> R
+    R --> U[Explicit uncertainty]
+~~~
 
-## Repository contents
+## Why install it?
 
-- SKILL.md — the Codex skill definition.
-- CHANGELOG.md — release history.
-- LICENSE — repository license.
+| Without a deliberate evidence workflow | With Inspect Visual Evidence |
+| --- | --- |
+| Screenshots are taken before checking page state | DOM, accessibility, text, and metadata are checked first |
+| A full screen or long video is inspected indiscriminately | The relevant element, crop, or time interval is isolated |
+| Visible results are confused with the input that caused them | State, input events, inference, and unknowns stay separate |
+| Conclusions lose their source context | Important claims retain URLs, regions, or timestamps |
 
-## Installation
+This is useful for UI review, screenshot diagnosis, visual QA, screen-recording analysis, and evidence-backed bug reports. It is not a computer-vision library or a replacement for browser, OCR, transcript, or media tools.
 
-Clone or download this repository, then place SKILL.md in a Codex skill directory under a folder named inspect-visual-evidence.
+## Install
 
-On Windows, the typical user-level location is:
+### Recommended: ask Codex
 
-    %USERPROFILE%\.codex\skills\inspect-visual-evidence\SKILL.md
+In a Codex task, say:
 
-On macOS/Linux:
+~~~text
+Use $skill-installer to install the skill from
+https://github.com/jying3040-cmd/codex-inspect-visual-evidence
+~~~
 
-    ~/.codex/skills/inspect-visual-evidence/SKILL.md
+Codex detects installed skill changes automatically. If the skill does not appear, restart Codex.
 
-The exact discovery location can vary by Codex surface and version. After installation, start a new Codex task and verify that the skill is available.
+### Manual local install
 
-## Scope
+Clone the repository, then copy this directory:
 
-This repository contains a Codex skill only. It does not provide an MCP server, browser extension, API, desktop application, or general-purpose computer-vision library.
+~~~text
+skills/inspect-visual-evidence
+~~~
+
+to your personal skills directory:
+
+~~~text
+$HOME/.agents/skills/inspect-visual-evidence
+~~~
+
+Repository-scoped skills can instead live under:
+
+~~~text
+<repository>/.agents/skills/inspect-visual-evidence
+~~~
+
+These locations follow the current [official OpenAI skill documentation](https://learn.chatgpt.com/docs/build-skills).
+
+## Use
+
+Invoke it explicitly when you want a review:
+
+~~~text
+Use $inspect-visual-evidence to inspect this screenshot.
+Separate observations from inference and cite the exact region.
+~~~
+
+~~~text
+Use $inspect-visual-evidence to review this screen recording.
+Build a coarse timeline first, then inspect the interval around the failure.
+~~~
+
+It can also activate automatically when a request clearly depends on appearance, layout, spatial relationships, or temporal change.
+
+## What a result looks like
+
+A formal report uses four compact parts:
+
+1. **Finding** — the answer or defect.
+2. **Evidence** — the URL, region, timestamp, or application state.
+3. **Inference** — labeled separately when needed.
+4. **Limit** — uncertainty or missing coverage.
+
+See the [illustrative evidence report](examples/evidence-report.md).
+
+## Repository layout
+
+~~~text
+.
+├── .codex-plugin/plugin.json
+├── skills/
+│   └── inspect-visual-evidence/
+│       ├── SKILL.md
+│       ├── agents/openai.yaml
+│       └── references/video-inspection.md
+├── examples/evidence-report.md
+├── scripts/validate.py
+└── .github/workflows/validate.yml
+~~~
+
+The repository includes a plugin manifest for distribution and a standalone skill directory for local or repository-scoped use.
+
+## Validate
+
+~~~bash
+python scripts/validate.py
+~~~
+
+The check verifies the plugin manifest, required skill metadata, UI metadata, referenced files, and unfinished placeholders. CI runs the same check on every push and pull request.
+
+## Scope and trust
+
+- No network service, MCP server, browser extension, or telemetry is included.
+- The skill contains instructions and one supporting reference; it does not execute bundled code.
+- Tool permissions and user authorization remain controlled by Codex and the active environment.
+- Visual evidence can still be incomplete. The skill requires uncertainty to be reported when it matters.
 
 ## License
 
-See LICENSE.
+[MIT](LICENSE)

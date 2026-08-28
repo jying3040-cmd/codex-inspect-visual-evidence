@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0
+
+- Packaged the skill as a validated Codex plugin.
+- Updated installation paths to match current OpenAI documentation.
+- Added UI metadata, a focused video-inspection reference, and an example evidence report.
+- Added dependency-free validation and GitHub Actions CI.
+- Reworked the README around outcomes, installation, usage, and trust boundaries.
+
 ## 1.0.0
 
 - Initial Codex skill release.

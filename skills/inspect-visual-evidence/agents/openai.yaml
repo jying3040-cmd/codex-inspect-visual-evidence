@@ -1,0 +1,5 @@
+interface:
+  display_name: "Inspect Visual Evidence"
+  short_description: "Traceable evidence for pages, images, and recordings"
+  brand_color: "#0F766E"
+  default_prompt: "Use $inspect-visual-evidence to inspect this visual material and separate observations, inference, and uncertainty."
