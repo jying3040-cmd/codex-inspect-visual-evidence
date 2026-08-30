@@ -3,7 +3,7 @@
 [![Validate](https://github.com/jying3040-cmd/codex-inspect-visual-evidence/actions/workflows/validate.yml/badge.svg)](https://github.com/jying3040-cmd/codex-inspect-visual-evidence/actions/workflows/validate.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**An evidence-first Codex skill for inspecting web pages, screenshots, images, videos, and screen recordings.**
+**Make Codex visual findings traceable, not merely plausible.**
 
 It helps Codex choose the smallest reliable evidence source, preserve URLs and timestamps, and say clearly what was observed, inferred, or still unknown.
 
@@ -27,6 +27,42 @@ flowchart LR
 | Conclusions lose their source context | Important claims retain URLs, regions, or timestamps |
 
 This is useful for UI review, screenshot diagnosis, visual QA, screen-recording analysis, and evidence-backed bug reports. It is not a computer-vision library or a replacement for browser, OCR, transcript, or media tools.
+
+## Before and after
+
+These examples show the reporting difference the skill is designed to create. They are illustrative, not benchmark results.
+
+### Web defect
+
+| Generic finding | Evidence-first finding |
+| --- | --- |
+| “The checkout button is broken.” | **Finding:** “Place order” remains disabled after valid card input. **Evidence:** checkout URL, payment panel, after the postal-code field loses focus. **Inference:** client-side validation may not be re-running. **Limit:** no console or network trace was inspected. |
+
+### Ambiguous screenshot
+
+| Generic finding | Evidence-first finding |
+| --- | --- |
+| “The text is clipped.” | **Finding:** the final line of the card title is cut at the lower edge. **Evidence:** rightmost card, title region, supplied screenshot. **Inference:** fixed height or line clamping is likely. **Limit:** viewport size and DOM styles are unavailable from the image alone. |
+
+### Long screen recording
+
+| Generic finding | Evidence-first finding |
+| --- | --- |
+| “The save action failed near the end.” | **Finding:** the spinner disappears without confirmation. **Evidence:** `02:14–02:19`, settings panel after “Save” is selected. **Inference:** the request may fail or the success state may be missing. **Limit:** frames do not expose the response status. |
+
+The improvement is not greater confidence; it is a smaller claim with a source, a boundary, and a clear next check.
+
+## Benchmark roadmap
+
+The repository does not yet claim measured quality gains. A useful public benchmark should include fixed web, screenshot, OCR-failure, and long-video cases, then compare:
+
+- evidence traceability: claims with a URL, region, state, or timestamp;
+- unsupported-claim rate: conclusions not justified by the inspected source;
+- localization accuracy: whether the reported element or interval contains the defect;
+- uncertainty quality: whether missing coverage and inference are labeled;
+- inspection cost: screenshots, frames, and tool calls used per resolved question.
+
+Contributions of reproducible cases and expected reports are especially welcome.
 
 ## Install
 
